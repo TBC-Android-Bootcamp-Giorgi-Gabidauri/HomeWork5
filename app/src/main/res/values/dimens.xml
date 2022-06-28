@@ -17,4 +17,6 @@
     <dimen name="dimen_346dp">346dp</dimen>
     <dimen name="dimen_33dp">33dp</dimen>
     <dimen name="dimen_60dp">60dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dimen_32sp">32sp</dimen>
 </resources>

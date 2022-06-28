@@ -2,15 +2,17 @@ package com.gabo.authviafirebase.loggedOut.register
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gabo.authviafirebase.loggedOut.register.model.UserInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class RegisterStepTwoViewModel : ViewModel() {
-    val isCreatedSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isSavedSucessfully: MutableLiveData<Boolean> = MutableLiveData(false)
+    val userInfo: MutableLiveData<UserInfo> = MutableLiveData()
+    val isSavedSuccessfully: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isFailure: MutableLiveData<String> = MutableLiveData()
+    val isCreatedSuccessfully: MutableLiveData<Boolean> = MutableLiveData()
 
     fun createUser(email: String, password: String) {
         isLoading.value = true
@@ -19,10 +21,11 @@ class RegisterStepTwoViewModel : ViewModel() {
             if (task.isSuccessful) {
                 isLoading.value = false
                 isCreatedSuccessfully.value = true
+                userInfo.value = UserInfo(email, password)
             } else {
+                isLoading.value = false
                 isFailure.value = task.exception?.message
             }
-
         }
     }
 
@@ -40,8 +43,10 @@ class RegisterStepTwoViewModel : ViewModel() {
         userReference.child(currentUserId).setValue(userMap)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    isSavedSucessfully.value = true
+                    isSavedSuccessfully.value = true
                 }
+            }.addOnFailureListener {
+                isFailure.value = it.message
             }
     }
 }

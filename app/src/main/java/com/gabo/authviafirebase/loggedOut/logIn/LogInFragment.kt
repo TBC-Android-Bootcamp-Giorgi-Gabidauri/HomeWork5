@@ -1,5 +1,6 @@
 package com.gabo.authviafirebase.loggedOut.logIn
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.gabo.authviafirebase.R
 import com.gabo.authviafirebase.databinding.FragmentLogInBinding
+import com.gabo.authviafirebase.loggedIn.LoggedInActivity
 
 class LogInFragment : Fragment() {
 
@@ -30,7 +31,7 @@ class LogInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             btnArrowBack.setOnClickListener {
-                findNavController().navigate(R.id.action_logInFragment_to_loggedOutFragment)
+                findNavController().navigateUp()
             }
             btnLogIn.setOnClickListener {
                 loginUser()
@@ -46,7 +47,9 @@ class LogInFragment : Fragment() {
                 binding.progressBar.isVisible = it
             }
             isSuccessful.observe(viewLifecycleOwner) {
-                Toast.makeText(requireActivity(), "Succesfull", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Login Successful", Toast.LENGTH_SHORT).show()
+                requireActivity().finish()
+                startActivity(Intent(requireActivity(), LoggedInActivity::class.java))
             }
             isFailure.observe(viewLifecycleOwner) {
                 Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
@@ -66,6 +69,16 @@ class LogInFragment : Fragment() {
             password.isEmpty() -> Toast.makeText(
                 requireActivity(),
                 "Password is required",
+                Toast.LENGTH_SHORT
+            ).show()
+            password.length < 6 -> Toast.makeText(
+                requireActivity(),
+                "Password shouldn't be shorter than 6 characters long",
+                Toast.LENGTH_SHORT
+            ).show()
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> Toast.makeText(
+                requireActivity(),
+                "Email format is wrong!",
                 Toast.LENGTH_SHORT
             ).show()
             else -> {

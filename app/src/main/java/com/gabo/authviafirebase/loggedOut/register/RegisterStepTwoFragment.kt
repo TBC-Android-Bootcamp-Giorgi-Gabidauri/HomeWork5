@@ -1,18 +1,18 @@
 package com.gabo.authviafirebase.loggedOut.register
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.navigation.NavArgs
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.gabo.authviafirebase.R
 import com.gabo.authviafirebase.databinding.FragmentRegisterStepTwoBinding
+import com.gabo.authviafirebase.loggedIn.LoggedInActivity
 
 class RegisterStepTwoFragment : Fragment() {
 
@@ -35,38 +35,51 @@ class RegisterStepTwoFragment : Fragment() {
         val password = args.password
         with(binding) {
             btnArrowBack.setOnClickListener {
-                findNavController().navigate(R.id.action_registerStepTwoFragment_to_registerStepOneFragment)
+                findNavController().navigateUp()
             }
             btnSignUp.setOnClickListener {
-                with(viewModel){
-                    createUser(email, password)
+                if (binding.etUsername.text?.isEmpty() == false) {
+                    viewModel.createUser(email, password)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Username shouldn't be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+
             }
         }
         setupObservers()
-
     }
-    private fun setupObservers(){
-        with(viewModel){
+
+    private fun setupObservers() {
+        with(viewModel) {
             isCreatedSuccessfully.observe(viewLifecycleOwner) {
-                if (it == true) {
-                    Toast.makeText(requireContext(), "Account Created", Toast.LENGTH_SHORT).show()
+                if (it) {
+                    Toast.makeText(requireContext(), "Account created", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
-            isFailure.observe(viewLifecycleOwner){
+            userInfo.observe(viewLifecycleOwner) { userInfo ->
+                saveUserInfo(
+                    binding.etUsername.text.toString(),
+                    userInfo.email,
+                    userInfo.password
+                )
+            }
+            isFailure.observe(viewLifecycleOwner) {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
-        }
-        private fun setupObservers() {
-            with(viewModel) {
-                isLoading.observe(viewLifecycleOwner) {
-                    binding.progressBar.isVisible = it
-                }
-                isSuccessful.observe(viewLifecycleOwner) {
-                    Toast.makeText(requireActivity(), "Succesfull", Toast.LENGTH_SHORT).show()
-                }
-                isFailure.observe(viewLifecycleOwner) {
-                    Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            isLoading.observe(viewLifecycleOwner) {
+                binding.progressBar.isVisible = it
+            }
+            isSavedSuccessfully.observe(viewLifecycleOwner) {
+                if (it) {
+                    Toast.makeText(requireContext(), "Account info saved", Toast.LENGTH_SHORT)
+                        .show()
+                    requireActivity().finish()
+                    startActivity(Intent(requireActivity(), LoggedInActivity::class.java))
                 }
             }
         }
