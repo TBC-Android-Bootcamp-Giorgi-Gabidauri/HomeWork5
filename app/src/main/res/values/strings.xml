@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Auth Via Firebase</string>
+    <string name="privacy_policy">By signing up, you agree to Photo’s <u>Terms of Service</u> and <u>Privacy Policy</u>.</string>
+    <string name="the_jane">the_jane</string>
+    <string name="register">Register</string>
+    <string name="next">NEXT</string>
+    <string name="log_in">Log in</string>
+    <string name="email">jane@example.com</string>
+    <string name="password">••••••••••••</string>
+    <string name="sign_up">SIGN Up</string>
+</resources>

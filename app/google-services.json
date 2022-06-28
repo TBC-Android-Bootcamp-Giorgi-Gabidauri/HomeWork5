@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "927955676061",
+    "project_id": "auth-via-firebase",
+    "storage_bucket": "auth-via-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927955676061:android:5cf6ad038345aa95689d74",
+        "android_client_info": {
+          "package_name": "com.gabo.authviafirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927955676061-t68i89r9kjlpmk9jv14f75ebimckdbsh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQmEfhtTdI5Y4YmEcgvKrJr4JMdsDeadw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927955676061-t68i89r9kjlpmk9jv14f75ebimckdbsh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
