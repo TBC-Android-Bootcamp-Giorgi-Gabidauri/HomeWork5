@@ -1,6 +1,6 @@
 package com.gabo.authviafirebase.loggedIn.model
 
-class CurrentUserInfo(
+data class CurrentUserInfo(
     val email: String = "",
     val password: String = "",
     val username: String = "",
